@@ -1,9 +1,11 @@
 import React from 'react';
-import { ConnectWallet, useAddress, useMetamask } from '@thirdweb-dev/react';
+import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
 
 const NFTDropPage = () => {
+  // Auth
+  const connectWithMetamask = useMetamask();
   const address = useAddress();
-  const connect = useMetamask();
+  const disconnect = useDisconnect();
 
   return (
     <div className="flex h-screen flex-col lg:grid lg:grid-cols-10">
@@ -39,14 +41,21 @@ const NFTDropPage = () => {
           </h1>
 
           <button
+            onClick={() => (address ? disconnect() : connectWithMetamask())}
             className="rounded-full bg-rose-400 text-white px-4 py-2 text-xs font-bold lg:px-5 lg:py-3 lg:text-base"
-            onClick={connect}
           >
-            Sign In
+            {address ? 'Sign Out' : 'Sign In'}
           </button>
         </header>
 
         <hr className="my-2 border" />
+
+        {address && (
+          <p className="text-center text-sm text-rose-400">
+            You're logged in with a wallet {address.substring(0, 4)}...
+            {address.substring(address.length - 4)}
+          </p>
+        )}
 
         {/* Content */}
         <div className="mt-10 flex flex-1 flex-col items-center space-y-6 text-center lg:space-y-0 lg:justify-center">
