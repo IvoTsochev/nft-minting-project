@@ -7,3 +7,8 @@ export const config = {
   apiVersion: '2021-03-25',
   useCdn: process.env.NDDE_ENV === 'production',
 };
+
+export const sanityClient = createClient(config);
+
+// Helper function for easily building image URLs for your Sanity
+export const urlFor = (source) => createImageUrlBuilder(config).image(source);
